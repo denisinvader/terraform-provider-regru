@@ -1,0 +1,1 @@
+terraform import scaffolding_example.example "id-123"
