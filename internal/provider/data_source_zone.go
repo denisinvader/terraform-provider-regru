@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"terraform-provider-regru/internal/md"
 	"terraform-provider-regru/internal/regru"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -55,8 +56,8 @@ func (d *dataSourceZone) Configure(_ context.Context, req datasource.ConfigureRe
 	client, ok := req.ProviderData.(*regru.Client)
 	if !ok {
 		res.Diagnostics.AddError(
-			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *regru.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			"Unexpected ProviderData Type",
+			fmt.Sprintf("Expected *regru.Client, got %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 
 		return
@@ -67,64 +68,54 @@ func (d *dataSourceZone) Configure(_ context.Context, req datasource.ConfigureRe
 
 func (d *dataSourceZone) Schema(_ context.Context, req datasource.SchemaRequest, res *datasource.SchemaResponse) {
 	res.Schema = schema.Schema{
+		MarkdownDescription: "Reads the zone's SOA settings, reg.ru service details, and current DNS records.",
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{
-				Required: true,
-				// FIXME: write description
-				Description: "",
+				Required:            true,
+				MarkdownDescription: "Zone name, e.g. `example.com`.",
 			},
 			"service_type": schema.StringAttribute{
-				Computed: true,
-				// FIXME: write description
-				Description: "",
+				Computed:            true,
+				MarkdownDescription: "Internal reg.ru service type. This is normally `domain`.",
 			},
 			"service_id": schema.StringAttribute{
-				Computed: true,
-				// FIXME: write description
-				Description: "",
+				Computed:            true,
+				MarkdownDescription: "Numeric identifier of the internal reg.ru service associated with the domain.",
 			},
 			"soa": schema.SingleNestedAttribute{
-				Computed: true,
-				// FIXME: write description
-				Description: "",
+				Computed:            true,
+				MarkdownDescription: "Start of Authority (SOA) record settings.",
 				Attributes: map[string]schema.Attribute{
 					"ttl": schema.StringAttribute{
-						Computed: true,
-						// FIXME: write description
-						Description: "",
+						Computed:            true,
+						MarkdownDescription: md.SoaTtl,
 					},
 					"minimum_ttl": schema.StringAttribute{
-						Computed: true,
-						// FIXME: write description
-						Description: "",
+						Computed:            true,
+						MarkdownDescription: md.SoaMinimumTtl,
 					},
 				},
 			},
 			"records": schema.ListNestedAttribute{
-				Computed: true,
-				// FIXME: write description
-				Description: "",
+				Computed:            true,
+				MarkdownDescription: "List of DNS records currently configured for the zone.",
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"type": schema.StringAttribute{
-							Computed: true,
-							// FIXME: write description
-							Description: "",
+							Computed:            true,
+							MarkdownDescription: "Record type: `A`, `AAAA`, `CAA`, `CNAME`, `MX`, `NS`, `SRV`, or `TXT`.",
 						},
 						"name": schema.StringAttribute{
-							Computed: true,
-							// FIXME: write description
-							Description: "",
+							Computed:            true,
+							MarkdownDescription: "Subdomain name, `*` for a wildcard, or `@` for the zone apex.",
 						},
 						"priority": schema.Int32Attribute{
-							Computed: true,
-							// FIXME: write description
-							Description: "",
+							Computed:            true,
+							MarkdownDescription: "Record priority.",
 						},
 						"content": schema.StringAttribute{
-							Computed: true,
-							// FIXME: write description
-							Description: "",
+							Computed:            true,
+							MarkdownDescription: "Record content: an IPv4 address for `A` records, an IPv6 address for `AAAA` records, a target domain for `CNAME` records, and so on.",
 						},
 					},
 				},
@@ -143,7 +134,7 @@ func (d *dataSourceZone) Read(ctx context.Context, req datasource.ReadRequest, r
 
 	zone, err := d.client.GetZoneInfo(state.Name.ValueString())
 	if err != nil {
-		res.Diagnostics.AddError("Unable to read reg.ru zone", err.Error())
+		res.Diagnostics.AddError("Unable to read reg.ru zone", fmt.Sprintf("Could not read zone %q: %s", state.Name.ValueString(), err))
 		return
 	}
 

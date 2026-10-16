@@ -1,3 +1,7 @@
-## 0.1.0 (Unreleased)
+## 0.1.0
 
-FEATURES:
+Features:
+
+* reg.ru API authentication with a username and password.
+* `regru_zone` data source.
+* `regru_record_a` resource.

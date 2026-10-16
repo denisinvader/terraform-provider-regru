@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"os"
+	"terraform-provider-regru/internal/md"
 	"terraform-provider-regru/internal/regru"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -29,13 +30,16 @@ func (p *RegruProvider) Metadata(ctx context.Context, req provider.MetadataReque
 
 func (p *RegruProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: md.Provider,
 		Attributes: map[string]schema.Attribute{
 			"username": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: md.ProviderUsername,
 			},
 			"password": schema.StringAttribute{
-				Optional:  true,
-				Sensitive: true,
+				Optional:            true,
+				Sensitive:           true,
+				MarkdownDescription: md.ProviderPassword,
 			},
 		},
 	}
@@ -52,16 +56,16 @@ func (p *RegruProvider) Configure(ctx context.Context, req provider.ConfigureReq
 	if config.Username.IsUnknown() {
 		res.Diagnostics.AddAttributeError(
 			path.Root("username"),
-			"Unknown reg.ru API username",
-			"The provider cannot create the reg.ru API client as there is an unknown configuration value for the username. Either target apply the source of the value first, set the value statically in the configuration, or use the REGRU_USERNAME environment variable.",
+			"Username value is unknown",
+			"The provider cannot create the reg.ru API client because the username is unknown. Apply the resource that supplies the value first, set the username directly in the provider configuration, or use the REGRU_USERNAME environment variable.",
 		)
 	}
 
 	if config.Password.IsUnknown() {
 		res.Diagnostics.AddAttributeError(
 			path.Root("password"),
-			"Unknown reg.ru API password",
-			"The provider cannot create the reg.ru API client as there is an unknown configuration value for the password. Either target apply the source of the value first, set the value statically in the configuration, or use the REGRU_PASSWORD environment variable.",
+			"Password value is unknown",
+			"The provider cannot create the reg.ru API client because the password is unknown. Apply the resource that supplies the value first, set the password directly in the provider configuration, or use the REGRU_PASSWORD environment variable.",
 		)
 	}
 
@@ -77,9 +81,9 @@ func (p *RegruProvider) Configure(ctx context.Context, req provider.ConfigureReq
 		res.Diagnostics.AddAttributeError(
 			path.Root("username"),
 			"Missing reg.ru API username",
-			"The provider cannot create the reg.ru API client as there is a missing or empty value for the reg.ru API username. "+
-				"Set the username value in the configuration or use the REGRU_USERNAME environment variable. "+
-				"If either is already set, ensure the value is not empty.",
+			"The reg.ru API username is missing or empty. "+
+				"Set it in the provider configuration or use the REGRU_USERNAME environment variable. "+
+				"If it is already set, make sure its value is not empty.",
 		)
 	}
 
@@ -91,9 +95,9 @@ func (p *RegruProvider) Configure(ctx context.Context, req provider.ConfigureReq
 		res.Diagnostics.AddAttributeError(
 			path.Root("password"),
 			"Missing reg.ru API password",
-			"The provider cannot create the reg.ru API client as there is a missing or empty value for the reg.ru API password. "+
-				"Set the password value in the configuration or use the REGRU_PASSWORD environment variable. "+
-				"If either is already set, ensure the value is not empty.",
+			"The reg.ru API password is missing or empty. "+
+				"Set it in the provider configuration or use the REGRU_PASSWORD environment variable. "+
+				"If it is already set, make sure its value is not empty.",
 		)
 	}
 

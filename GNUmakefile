@@ -12,6 +12,9 @@ lint:
 generate:
 	cd tools; go generate ./...
 
+generate-osx:
+	cd tools; GOOS=darwin GOARCH=amd64 go generate ./...
+
 fmt:
 	gofmt -s -w -e .
 

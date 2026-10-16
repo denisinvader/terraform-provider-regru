@@ -1,0 +1,36 @@
+name: Feature request
+description: Suggest a resource, data source, provider feature, or improvement.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What Regru task should Terraform support?
+      description: Describe the Regru API capability or workflow you want to manage with Terraform.
+      placeholder: I want to manage … with Terraform.
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_behavior
+    attributes:
+      label: How do you handle this today?
+      description: Describe the current provider behavior or any manual/API workaround.
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: What should the provider do?
+      description: Describe the expected Terraform behavior. A proposed resource, data source, or schema is optional.
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: API references or examples
+      description: Link to the relevant Regru API documentation or provide a sanitized example request and response. Do not include credentials or account data.
+    validations:
+      required: false

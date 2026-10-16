@@ -1,0 +1,66 @@
+name: Bug report
+description: Report something that does not work as expected.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Describe one problem per report. Remove Regru credentials, API keys, account data, and other secrets before sharing configuration or logs.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the problem with the Regru Terraform provider.
+      placeholder: A short description of the problem.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the Terraform commands you ran and the smallest configuration that reproduces the problem.
+      placeholder: |
+        1. Configure the provider and resource …
+        2. Run `terraform plan` or `terraform apply` …
+        3. Observe the error …
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: Describe the expected behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      placeholder: Describe what you saw.
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include Terraform, provider, and operating system versions. Add the Regru API method or resource involved if known.
+      placeholder: |
+        Terraform version:
+        Regru provider version:
+        OS and architecture:
+        Resource or data source:
+    validations:
+      required: false
+
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Error output or logs
+      description: Paste relevant Terraform output or logs. Remove credentials, tokens, account identifiers, and other secrets first.
+    validations:
+      required: false

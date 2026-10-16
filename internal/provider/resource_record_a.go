@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"terraform-provider-regru/internal/md"
 	"terraform-provider-regru/internal/regru"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -46,8 +47,8 @@ func (r *resourceRecordA) Configure(ctx context.Context, req resource.ConfigureR
 	client, ok := req.ProviderData.(*regru.Client)
 	if !ok {
 		res.Diagnostics.AddError(
-			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *regru.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			"Unexpected ProviderData Type",
+			fmt.Sprintf("Expected *regru.Client, got %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 
 		return
@@ -58,30 +59,28 @@ func (r *resourceRecordA) Configure(ctx context.Context, req resource.ConfigureR
 
 func (r *resourceRecordA) Schema(ctx context.Context, req resource.SchemaRequest, res *resource.SchemaResponse) {
 	res.Schema = schema.Schema{
+		MarkdownDescription: md.ResourceRecordA,
 		Attributes: map[string]schema.Attribute{
 			"zone": schema.StringAttribute{
 				Required: true,
-				// FIXME: fill description
-				Description: "",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
+				MarkdownDescription: md.ResourceRecordZone,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
-				// FIXME: fill description
-				Description: "",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
+				MarkdownDescription: "Subdomain name, `*` for a wildcard, or `@` for the zone apex.",
 			},
 			"ip": schema.StringAttribute{
 				Required: true,
-				// FIXME: fill description
-				Description: "",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
+				MarkdownDescription: "Target IPv4 value.",
 			},
 		},
 	}
@@ -160,7 +159,7 @@ func (r *resourceRecordA) Read(ctx context.Context, req resource.ReadRequest, re
 func (r *resourceRecordA) Update(ctx context.Context, req resource.UpdateRequest, res *resource.UpdateResponse) {
 	res.Diagnostics.AddError(
 		"Error updating reg.ru A record",
-		"Unexpected Update operation instead of Delete/Create. Please report this issue to the provider developers.",
+		"Terraform called Update for a resource that only supports replacement. Please report this issue to the provider developers.",
 	)
 }
 
