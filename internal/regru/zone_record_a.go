@@ -1,29 +1,43 @@
 package regru
 
-import "fmt"
+func (c *Client) GetRecordA(zone, name, ip string) (ZoneRecord, error) {
+	none := ZoneRecord{}
 
-func (c *Client) GetRecordA(zone, name string) (ZoneRecord, error) {
 	res, err := c.GetZoneInfo(zone)
 	if err != nil {
-		return ZoneRecord{}, err
+		return none, err
 	}
 
 	for _, record := range res.Records {
-		if record.Type == RecordTypeA && record.Name == name {
+		if record.Type == RecordTypeA && record.Name == name && record.Content == ip {
 			return record, nil
 		}
 	}
 
-	return ZoneRecord{}, fmt.Errorf("Record %s not found in zone %s", name, zone)
+	return none, RegruRecordNotFoundError{zone, RecordTypeA, name, ip, nil}
 }
 
 func (c *Client) CreateRecordA(zone, name, ip string) error {
-	data := map[string]string{
-		"subdomain": name,
-		"ipaddr":    ip,
+	_, err := c.fetch(ActionZoneAddRecordA, map[string]string{
+		"domain_name": zone,
+		"subdomain":   name,
+		"ipaddr":      ip,
+	})
+
+	if err != nil {
+		c.deleteCachedZone(zone)
 	}
 
-	_, err := c.fetch("zone/add_alias", data)
+	return err
+}
+
+func (c *Client) DeleteRecordA(zone, name, ip string) error {
+	_, err := c.fetch(ActionZoneRemoveRecord, map[string]string{
+		"domain_name": zone,
+		"record_type": RecordTypeA,
+		"subdomain":   name,
+		"content":     ip,
+	})
 
 	if err != nil {
 		c.deleteCachedZone(zone)

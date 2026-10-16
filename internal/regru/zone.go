@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-type getResourceRecordsAnswer struct {
+type getZoneInfoAnswer struct {
 	Domains []Zone `json:"domains,omitempty"`
 }
 
@@ -14,23 +14,17 @@ func (c *Client) GetZoneInfo(name string) (Zone, error) {
 		return *c.cachedZones[name], nil
 	}
 
-	fmt.Printf("[debug] Requesting zone/get_resource_records for %s\n", name)
-
-	res, err := c.fetch("zone/get_resource_records", map[string]string{"domain_name": name})
+	res, err := c.fetch(ActionZoneInfo, map[string]string{"domain_name": name})
 	if err != nil {
 		return Zone{}, err
 	}
 
-	var response Response[getResourceRecordsAnswer]
-	if err := json.Unmarshal(res, &response); err != nil {
+	var answer getZoneInfoAnswer
+	if err := json.Unmarshal(res.Answer, &answer); err != nil {
 		return Zone{}, err
 	}
 
-	if response.Result == ResultError {
-		return Zone{}, RegruError{response.ErrorCode, response.ErrorText}
-	}
-
-	for _, zone := range response.Answer.Domains {
+	for _, zone := range answer.Domains {
 		if zone.Name == name {
 			if zone.Result == ResultError {
 				return Zone{}, RegruError{zone.ErrorCode, zone.ErrorText}
@@ -42,5 +36,5 @@ func (c *Client) GetZoneInfo(name string) (Zone, error) {
 		}
 	}
 
-	return Zone{}, fmt.Errorf("Zone %s not found in response", name)
+	return Zone{}, fmt.Errorf("zone %s not found in response", name)
 }

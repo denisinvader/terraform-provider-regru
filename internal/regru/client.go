@@ -1,6 +1,7 @@
 package regru
 
 import (
+	"encoding/json"
 	"io"
 	"net/http"
 	"net/url"
@@ -32,10 +33,12 @@ func NewClient(username, password string) Client {
 	return Client{auth, httpClient, cachedZones}
 }
 
-func (c *Client) fetch(action string, data map[string]string) ([]byte, error) {
-	uri, err := url.JoinPath(BASE_URL, action)
+func (c *Client) fetch(action Action, data map[string]string) (Response, error) {
+	res := Response{}
+
+	uri, err := url.JoinPath(BASE_URL, string(action))
 	if err != nil {
-		return nil, err
+		return res, err
 	}
 
 	form := url.Values{}
@@ -49,12 +52,25 @@ func (c *Client) fetch(action string, data map[string]string) ([]byte, error) {
 
 	response, err := c.httpClient.PostForm(uri, form)
 	if err != nil {
-		return nil, err
+		return res, err
 	}
 
 	defer response.Body.Close()
 
-	return io.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
+	if err != nil {
+		return res, err
+	}
+
+	if err := json.Unmarshal(body, &res); err != nil {
+		return res, err
+	}
+
+	if res.Result == ResultError {
+		return res, RegruError{res.ErrorCode, res.ErrorText}
+	}
+
+	return res, nil
 }
 
 func (c *Client) setCachedZone(key string, zone Zone) {

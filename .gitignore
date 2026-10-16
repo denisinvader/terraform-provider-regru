@@ -8,6 +8,7 @@ bin/
 dist/
 modules-dev/
 /pkg/
+/debug/
 website/.vagrant
 website/.bundle
 website/build
