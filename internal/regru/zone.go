@@ -10,10 +10,6 @@ type getZoneInfoAnswer struct {
 }
 
 func (c *Client) GetZoneInfo(name string) (Zone, error) {
-	if c.cachedZones[name] != nil {
-		return *c.cachedZones[name], nil
-	}
-
 	res, err := c.fetch(ActionZoneInfo, map[string]string{"domain_name": name})
 	if err != nil {
 		return Zone{}, err
@@ -29,8 +25,6 @@ func (c *Client) GetZoneInfo(name string) (Zone, error) {
 			if zone.Result == ResultError {
 				return Zone{}, RegruError{zone.ErrorCode, zone.ErrorText}
 			}
-
-			c.setCachedZone(name, zone)
 
 			return zone, nil
 		}

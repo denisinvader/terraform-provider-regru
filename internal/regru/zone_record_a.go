@@ -24,10 +24,6 @@ func (c *Client) CreateRecordA(zone, name, ip string) error {
 		"ipaddr":      ip,
 	})
 
-	if err != nil {
-		c.deleteCachedZone(zone)
-	}
-
 	return err
 }
 
@@ -38,10 +34,6 @@ func (c *Client) DeleteRecordA(zone, name, ip string) error {
 		"subdomain":   name,
 		"content":     ip,
 	})
-
-	if err != nil {
-		c.deleteCachedZone(zone)
-	}
 
 	return err
 }

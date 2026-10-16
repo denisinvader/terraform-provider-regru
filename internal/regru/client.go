@@ -11,9 +11,8 @@ import (
 const BASE_URL = "https://api.reg.ru/api/regru2"
 
 type Client struct {
-	auth        ClientAuth
-	httpClient  http.Client
-	cachedZones map[string]*Zone
+	auth       ClientAuth
+	httpClient http.Client
 }
 
 type ClientAuth struct {
@@ -28,9 +27,7 @@ func NewClient(username, password string) Client {
 		Timeout: 60 * time.Second,
 	}
 
-	cachedZones := map[string]*Zone{}
-
-	return Client{auth, httpClient, cachedZones}
+	return Client{auth, httpClient}
 }
 
 func (c *Client) fetch(action Action, data map[string]string) (Response, error) {
@@ -71,12 +68,4 @@ func (c *Client) fetch(action Action, data map[string]string) (Response, error) 
 	}
 
 	return res, nil
-}
-
-func (c *Client) setCachedZone(key string, zone Zone) {
-	c.cachedZones[key] = &zone
-}
-
-func (c *Client) deleteCachedZone(key string) {
-	c.cachedZones[key] = nil
 }
