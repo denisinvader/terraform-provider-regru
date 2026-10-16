@@ -32,7 +32,7 @@ resource "regru_record_a" "example" {
 
 ### Required
 
-- `ip` (String) Target IPv4 value.
+- `ip` (String) Target IPv4 address.
 - `name` (String) Subdomain name, `*` for a wildcard, or `@` for the zone apex.
 - `zone` (String) Name of the domain for this record.
 

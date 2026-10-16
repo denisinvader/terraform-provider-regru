@@ -11,6 +11,8 @@ var (
 	ProviderPassword string
 	//go:embed ResourceRecordA.md
 	ResourceRecordA string
+	//go:embed ResourceRecordAAAA.md
+	ResourceRecordAAAA string
 	//go:embed ResourceRecordZone.md
 	ResourceRecordZone string
 	//go:embed SoaMinimumTtl.md

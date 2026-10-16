@@ -114,6 +114,7 @@ func (p *RegruProvider) Configure(ctx context.Context, req provider.ConfigureReq
 func (p *RegruProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		NewResourceRecordA,
+		NewResourceRecordAAAA,
 		NewResourceZoneSoa,
 	}
 }

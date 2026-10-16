@@ -2,6 +2,7 @@
 
 Features:
 
+* `regru_record_aaaa` resource.
 * `regru_zone_soa` resource.
 
 ## v0.1.1

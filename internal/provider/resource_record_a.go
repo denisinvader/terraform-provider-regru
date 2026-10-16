@@ -80,7 +80,7 @@ func (r *resourceRecordA) Schema(ctx context.Context, req resource.SchemaRequest
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Target IPv4 value.",
+				MarkdownDescription: "Target IPv4 address.",
 			},
 		},
 	}
