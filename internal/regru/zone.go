@@ -32,3 +32,13 @@ func (c *Client) GetZoneInfo(name string) (Zone, error) {
 
 	return Zone{}, fmt.Errorf("zone %s not found in response", name)
 }
+
+func (c *Client) UpdateZoneSoa(name, ttl, minimumTtl string) error {
+	_, err := c.fetch(ActionZoneUpdateSoa, map[string]string{
+		"domain_name": name,
+		"ttl":         ttl,
+		"minimum_ttl": minimumTtl,
+	})
+
+	return err
+}

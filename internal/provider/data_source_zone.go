@@ -134,7 +134,10 @@ func (d *dataSourceZone) Read(ctx context.Context, req datasource.ReadRequest, r
 
 	zone, err := d.client.GetZoneInfo(state.Name.ValueString())
 	if err != nil {
-		res.Diagnostics.AddError("Unable to read reg.ru zone", fmt.Sprintf("Could not read zone %q: %s", state.Name.ValueString(), err))
+		res.Diagnostics.AddError(
+			"Unable to read reg.ru zone",
+			fmt.Sprintf("Could not read zone %q: %s", state.Name.ValueString(), err),
+		)
 		return
 	}
 
