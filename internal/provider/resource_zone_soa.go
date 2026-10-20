@@ -4,12 +4,14 @@ import (
 	"context"
 	"fmt"
 	"terraform-provider-regru/internal/md"
+	"terraform-provider-regru/internal/provider/validators"
 	"terraform-provider-regru/internal/regru"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -65,14 +67,23 @@ func (r *resourceZoneSoa) Schema(ctx context.Context, req resource.SchemaRequest
 					stringplanmodifier.RequiresReplace(),
 				},
 				Description: "Name of the domain.",
+				Validators: []validator.String{
+					validators.StringWithoutWhitespace(),
+				},
 			},
 			"ttl": schema.StringAttribute{
 				Required:            true,
 				MarkdownDescription: md.SoaTtl,
+				Validators: []validator.String{
+					validators.StringWithoutWhitespace(),
+				},
 			},
 			"minimum_ttl": schema.StringAttribute{
 				Required:            true,
 				MarkdownDescription: md.SoaMinimumTtl,
+				Validators: []validator.String{
+					validators.StringWithoutWhitespace(),
+				},
 			},
 		},
 	}

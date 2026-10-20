@@ -6,12 +6,14 @@ import (
 	"fmt"
 	"strings"
 	"terraform-provider-regru/internal/md"
+	"terraform-provider-regru/internal/provider/validators"
 	"terraform-provider-regru/internal/regru"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -67,6 +69,9 @@ func (r *resourceRecordAAAA) Schema(ctx context.Context, req resource.SchemaRequ
 					stringplanmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: md.ResourceRecordZone,
+				Validators: []validator.String{
+					validators.StringWithoutWhitespace(),
+				},
 			},
 			"name": schema.StringAttribute{
 				Required: true,
@@ -74,6 +79,9 @@ func (r *resourceRecordAAAA) Schema(ctx context.Context, req resource.SchemaRequ
 					stringplanmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Subdomain name, `*` for a wildcard, or `@` for the zone apex.",
+				Validators: []validator.String{
+					validators.StringWithoutWhitespace(),
+				},
 			},
 			"ip": schema.StringAttribute{
 				Required: true,
@@ -81,6 +89,9 @@ func (r *resourceRecordAAAA) Schema(ctx context.Context, req resource.SchemaRequ
 					stringplanmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Target IPv6 address.",
+				Validators: []validator.String{
+					validators.StringWithoutWhitespace(),
+				},
 			},
 		},
 	}
