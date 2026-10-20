@@ -33,3 +33,7 @@ type Response struct {
 	ErrorText   string          `json:"error_text,omitempty"`
 	ErrorParams map[string]any  `json:"error_params,omitempty"`
 }
+
+type ZonesAnswer struct {
+	Zones []Zone `json:"domains,omitempty"`
+}

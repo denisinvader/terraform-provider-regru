@@ -13,6 +13,10 @@ var (
 	ResourceRecordA string
 	//go:embed ResourceRecordAAAA.md
 	ResourceRecordAAAA string
+	//go:embed ResourceRecordCNAME.md
+	ResourceRecordCNAME string
+	//go:embed ResourceRecordCNAMECanonical.md
+	ResourceRecordCNAMECanonical string
 	//go:embed ResourceRecordZone.md
 	ResourceRecordZone string
 	//go:embed SoaMinimumTtl.md

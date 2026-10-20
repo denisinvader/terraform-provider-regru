@@ -18,22 +18,22 @@ func (c *Client) GetRecordAAAA(zone, name, ip string) (ZoneRecord, error) {
 }
 
 func (c *Client) CreateRecordAAAA(zone, name, ip string) error {
-	_, err := c.fetch(ActionZoneAddRecordAAAA, map[string]string{
+	res, err := c.fetch(ActionZoneAddRecordAAAA, map[string]string{
 		"domain_name": zone,
 		"subdomain":   name,
 		"ipaddr":      ip,
 	})
 
-	return err
+	return getZoneAnswerError(err, res, zone)
 }
 
 func (c *Client) DeleteRecordAAAA(zone, name, ip string) error {
-	_, err := c.fetch(ActionZoneRemoveRecord, map[string]string{
+	res, err := c.fetch(ActionZoneRemoveRecord, map[string]string{
 		"domain_name": zone,
 		"record_type": RecordTypeAAAA,
 		"subdomain":   name,
 		"content":     ip,
 	})
 
-	return err
+	return getZoneAnswerError(err, res, zone)
 }

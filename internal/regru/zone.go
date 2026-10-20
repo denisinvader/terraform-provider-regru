@@ -1,44 +1,23 @@
 package regru
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
-type getZoneInfoAnswer struct {
-	Domains []Zone `json:"domains,omitempty"`
-}
-
 func (c *Client) GetZoneInfo(name string) (Zone, error) {
+	var zone Zone
+
 	res, err := c.fetch(ActionZoneInfo, map[string]string{"domain_name": name})
-	if err != nil {
-		return Zone{}, err
+
+	if err == nil {
+		zone, err = getZoneAnswer(res, name)
 	}
 
-	var answer getZoneInfoAnswer
-	if err := json.Unmarshal(res.Answer, &answer); err != nil {
-		return Zone{}, err
-	}
-
-	for _, zone := range answer.Domains {
-		if zone.Name == name {
-			if zone.Result == ResultError {
-				return Zone{}, RegruError{zone.ErrorCode, zone.ErrorText}
-			}
-
-			return zone, nil
-		}
-	}
-
-	return Zone{}, fmt.Errorf("zone %s not found in response", name)
+	return zone, err
 }
 
-func (c *Client) UpdateZoneSoa(name, ttl, minimumTtl string) error {
-	_, err := c.fetch(ActionZoneUpdateSoa, map[string]string{
-		"domain_name": name,
+func (c *Client) UpdateZoneSoa(zone, ttl, minimumTtl string) error {
+	res, err := c.fetch(ActionZoneUpdateSoa, map[string]string{
+		"domain_name": zone,
 		"ttl":         ttl,
 		"minimum_ttl": minimumTtl,
 	})
 
-	return err
+	return getZoneAnswerError(err, res, zone)
 }

@@ -8,11 +8,12 @@ const (
 type Action string
 
 const (
-	ActionZoneInfo          Action = "zone/get_resource_records"
-	ActionZoneUpdateSoa     Action = "zone/update_soa"
-	ActionZoneRemoveRecord  Action = "zone/remove_record"
-	ActionZoneAddRecordA    Action = "zone/add_alias"
-	ActionZoneAddRecordAAAA Action = "zone/add_aaaa"
+	ActionZoneInfo           Action = "zone/get_resource_records"
+	ActionZoneUpdateSoa      Action = "zone/update_soa"
+	ActionZoneRemoveRecord   Action = "zone/remove_record"
+	ActionZoneAddRecordA     Action = "zone/add_alias"
+	ActionZoneAddRecordAAAA  Action = "zone/add_aaaa"
+	ActionZoneAddRecordCNAME Action = "zone/add_cname"
 )
 
 const (
