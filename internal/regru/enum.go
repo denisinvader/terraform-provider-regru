@@ -18,6 +18,7 @@ const (
 	ActionZoneAddRecordHTTPS Action = "zone/add_https"
 	ActionZoneAddRecordMX    Action = "zone/add_mx"
 	ActionZoneAddRecordNS    Action = "zone/add_ns"
+	ActionZoneAddRecordSRV   Action = "zone/add_srv"
 	ActionZoneAddRecordTXT   Action = "zone/add_txt"
 )
 

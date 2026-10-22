@@ -8,6 +8,7 @@ Features:
 * Added `regru_record_https` resource.
 * Added `regru_record_mx` resource.
 * Added `regru_record_ns` resource.
+* Added `regru_record_srv` resource.
 * Added `regru_record_txt` resource.
 * Added `regru_zone_soa` resource.
 

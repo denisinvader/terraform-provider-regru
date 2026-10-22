@@ -45,6 +45,10 @@ var (
 	ResourceRecordNSDNSServer string
 	//go:embed ResourceRecordNSIndex.md
 	ResourceRecordNSIndex string
+	//go:embed ResourceRecordSRV.md
+	ResourceRecordSRV string
+	//go:embed ResourceRecordSRVTarget.md
+	ResourceRecordSRVTarget string
 	//go:embed ResourceRecordTXT.md
 	ResourceRecordTXT string
 	//go:embed ResourceRecordTXTText.md
