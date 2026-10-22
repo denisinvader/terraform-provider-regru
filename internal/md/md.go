@@ -9,6 +9,10 @@ var (
 	ProviderUsername string
 	//go:embed ProviderPassword.md
 	ProviderPassword string
+	//go:embed RecordPriority.md
+	RecordPriority string
+	//go:embed RecordZone.md
+	RecordZone string
 	//go:embed ResourceRecordA.md
 	ResourceRecordA string
 	//go:embed ResourceRecordAAAA.md
@@ -17,8 +21,10 @@ var (
 	ResourceRecordCNAME string
 	//go:embed ResourceRecordCNAMECanonical.md
 	ResourceRecordCNAMECanonical string
-	//go:embed ResourceRecordZone.md
-	ResourceRecordZone string
+	//go:embed ResourceRecordMX.md
+	ResourceRecordMX string
+	//go:embed ResourceRecordMXMailServer.md
+	ResourceRecordMXMailServer string
 	//go:embed SoaMinimumTtl.md
 	SoaMinimumTtl string
 	//go:embed SoaTtl.md

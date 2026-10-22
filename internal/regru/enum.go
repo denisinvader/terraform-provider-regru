@@ -14,6 +14,7 @@ const (
 	ActionZoneAddRecordA     Action = "zone/add_alias"
 	ActionZoneAddRecordAAAA  Action = "zone/add_aaaa"
 	ActionZoneAddRecordCNAME Action = "zone/add_cname"
+	ActionZoneAddRecordMX    Action = "zone/add_mx"
 )
 
 const (

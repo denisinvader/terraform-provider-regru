@@ -68,7 +68,7 @@ func (r *resourceRecordAAAA) Schema(ctx context.Context, req resource.SchemaRequ
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: md.ResourceRecordZone,
+				MarkdownDescription: md.RecordZone,
 				Validators: []validator.String{
 					validators.StringWithoutWhitespace(),
 				},

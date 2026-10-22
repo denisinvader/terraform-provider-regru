@@ -4,11 +4,12 @@ Features:
 
 * Added `regru_record_aaaa` resource.
 * Added `regru_record_cname` resource.
+* Added `regru_record_mx` resource.
 * Added `regru_zone_soa` resource.
 
-Fixed:
+Fixes:
 
-* Zone mutation errors handling.
+* Implemented zone mutation errors handling.
 
 ## v0.1.1
 

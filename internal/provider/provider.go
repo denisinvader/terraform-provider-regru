@@ -116,6 +116,7 @@ func (p *RegruProvider) Resources(ctx context.Context) []func() resource.Resourc
 		NewResourceRecordA,
 		NewResourceRecordAAAA,
 		NewResourceRecordCNAME,
+		NewResourceRecordMX,
 		NewResourceZoneSoa,
 	}
 }
