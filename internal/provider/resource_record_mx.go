@@ -231,7 +231,7 @@ func (r *resourceRecordMX) ImportState(ctx context.Context, req resource.ImportS
 	if len(d) < 4 {
 		res.Diagnostics.AddError(
 			"Error parsing import ID for MX record",
-			fmt.Sprintf("Provided ID %s does not match expected format 'zone,name,ip'", req.ID),
+			fmt.Sprintf("Provided ID %s does not match expected format 'zone,name,priority,mail_server'", req.ID),
 		)
 		return
 	}

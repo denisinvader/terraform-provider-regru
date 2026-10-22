@@ -5,6 +5,7 @@ Features:
 * Added `regru_record_aaaa` resource.
 * Added `regru_record_cname` resource.
 * Added `regru_record_mx` resource.
+* Added `regru_record_txt` resource.
 * Added `regru_zone_soa` resource.
 
 Fixes:

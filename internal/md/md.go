@@ -25,6 +25,10 @@ var (
 	ResourceRecordMX string
 	//go:embed ResourceRecordMXMailServer.md
 	ResourceRecordMXMailServer string
+	//go:embed ResourceRecordTXT.md
+	ResourceRecordTXT string
+	//go:embed ResourceRecordTXTText.md
+	ResourceRecordTXTText string
 	//go:embed SoaMinimumTtl.md
 	SoaMinimumTtl string
 	//go:embed SoaTtl.md
