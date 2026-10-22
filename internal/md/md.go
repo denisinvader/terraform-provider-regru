@@ -21,6 +21,12 @@ var (
 	ResourceRecordCNAME string
 	//go:embed ResourceRecordCNAMECanonical.md
 	ResourceRecordCNAMECanonical string
+	//go:embed ResourceRecordHTTPS.md
+	ResourceRecordHTTPS string
+	//go:embed ResourceRecordHTTPSPriority.md
+	ResourceRecordHTTPSPriority string
+	//go:embed ResourceRecordHTTPSValue.md
+	ResourceRecordHTTPSValue string
 	//go:embed ResourceRecordMX.md
 	ResourceRecordMX string
 	//go:embed ResourceRecordMXMailServer.md

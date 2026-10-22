@@ -4,6 +4,7 @@ Features:
 
 * Added `regru_record_aaaa` resource.
 * Added `regru_record_cname` resource.
+* Added `regru_record_https` resource.
 * Added `regru_record_mx` resource.
 * Added `regru_record_ns` resource.
 * Added `regru_record_txt` resource.
