@@ -17,6 +17,14 @@ var (
 	ResourceRecordA string
 	//go:embed ResourceRecordAAAA.md
 	ResourceRecordAAAA string
+	//go:embed ResourceRecordCAA.md
+	ResourceRecordCAA string
+	//go:embed ResourceRecordCAAFlag.md
+	ResourceRecordCAAFlag string
+	//go:embed ResourceRecordCAATag.md
+	ResourceRecordCAATag string
+	//go:embed ResourceRecordCAAValue.md
+	ResourceRecordCAAValue string
 	//go:embed ResourceRecordCNAME.md
 	ResourceRecordCNAME string
 	//go:embed ResourceRecordCNAMECanonical.md

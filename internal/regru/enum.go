@@ -13,6 +13,7 @@ const (
 	ActionZoneRemoveRecord   Action = "zone/remove_record"
 	ActionZoneAddRecordA     Action = "zone/add_alias"
 	ActionZoneAddRecordAAAA  Action = "zone/add_aaaa"
+	ActionZoneAddRecordCAA   Action = "zone/add_caa"
 	ActionZoneAddRecordCNAME Action = "zone/add_cname"
 	ActionZoneAddRecordHTTPS Action = "zone/add_https"
 	ActionZoneAddRecordMX    Action = "zone/add_mx"
