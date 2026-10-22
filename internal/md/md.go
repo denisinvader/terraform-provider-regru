@@ -25,6 +25,12 @@ var (
 	ResourceRecordMX string
 	//go:embed ResourceRecordMXMailServer.md
 	ResourceRecordMXMailServer string
+	//go:embed ResourceRecordNS.md
+	ResourceRecordNS string
+	//go:embed ResourceRecordNSDNSServer.md
+	ResourceRecordNSDNSServer string
+	//go:embed ResourceRecordNSIndex.md
+	ResourceRecordNSIndex string
 	//go:embed ResourceRecordTXT.md
 	ResourceRecordTXT string
 	//go:embed ResourceRecordTXTText.md

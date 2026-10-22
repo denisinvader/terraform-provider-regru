@@ -17,7 +17,7 @@ func (c *Client) GetRecordMX(zone, name, mailServer string, priority int) (ZoneR
 		}
 	}
 
-	return none, RegruRecordNotFoundError{zone, RecordTypeMX, name, mailServer, nil}
+	return none, RegruRecordNotFoundError{zone, RecordTypeMX, name, mailServer, &priority}
 }
 
 func (c *Client) CreateRecordMX(zone, name, mailServer string, priority int) error {
