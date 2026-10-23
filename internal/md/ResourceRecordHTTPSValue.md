@@ -1,1 +1,1 @@
-**TODO:** ResourceRecordHTTPSValue
+Space-separated list of `key=value` pairs, for example `alpn=h2,h3 port=443`. Possible keys: `alpn`, `no-default-alpn`, `ipv4hint`, `ipv6hint`, `port`, `ech`, `mandatory` and `key<N>` where `0 <= <N> <= 65534`.

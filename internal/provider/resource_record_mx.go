@@ -263,6 +263,7 @@ func (r *resourceRecordMX) ImportState(ctx context.Context, req resource.ImportS
 				"Could not read reg.ru MX record %s -> %s (%d) in zone %s: %s",
 				name,
 				mailServer,
+				priority,
 				zone,
 				err,
 			),

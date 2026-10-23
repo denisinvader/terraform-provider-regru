@@ -263,6 +263,7 @@ func (r *resourceRecordNS) ImportState(ctx context.Context, req resource.ImportS
 				"Could not read reg.ru NS record %s -> %s (%d) in zone %s: %s",
 				name,
 				dnsServer,
+				index,
 				zone,
 				err,
 			),

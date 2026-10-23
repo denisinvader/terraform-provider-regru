@@ -1,1 +1,1 @@
-terraform import regru_zone_soa.name example.com
+terraform import regru_zone_soa.example example.com

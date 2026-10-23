@@ -1,5 +1,6 @@
-resource "regru_record_txt" "text" {
-  zone = "example.com"
-  name = "text"
-  text = "Some letters, numbers and other ASCII chars"
+resource "regru_record_https" "api" {
+  zone     = "example.com"
+  name     = "api"
+  priority = 1
+  value    = "alpn=h2,h3 port=443"
 }

@@ -3,12 +3,18 @@
 page_title: "regru_zone_soa Resource - regru"
 subcategory: ""
 description: |-
-  Manages Start of Authority (SOA) record settings for a domain.
+  Manages a zone's SOA settings.
+  The provider sends ttl and minimum_ttl when creating or updating this resource. Changing zone replaces the Terraform resource.
+  Deleting the Terraform resource only removes it from state. The provider does not reset the zone's SOA settings.
 ---
 
 # regru_zone_soa (Resource)
 
-Manages Start of Authority (SOA) record settings for a domain.
+Manages a zone's SOA settings.
+
+The provider sends `ttl` and `minimum_ttl` when creating or updating this resource. Changing `zone` replaces the Terraform resource.
+
+Deleting the Terraform resource only removes it from state. The provider does not reset the zone's SOA settings.
 
 ## Example Usage
 
@@ -27,7 +33,7 @@ resource "regru_zone_soa" "example" {
 
 - `minimum_ttl` (String) Zone negative-cache time to live, specified in seconds or with a unit suffix: `m` for months, `w` for weeks, `d` for days, or `h` for hours.
 - `ttl` (String) Zone time to live, specified in seconds or with a unit suffix: `m` for months, `w` for weeks, `d` for days, or `h` for hours.
-- `zone` (String) Name of the domain.
+- `zone` (String) Domain passed to reg.ru as `domain_name`. Changing it replaces this Terraform resource.
 
 ## Import
 
@@ -36,5 +42,5 @@ Import is supported using the following syntax:
 The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
-terraform import regru_zone_soa.name example.com
+terraform import regru_zone_soa.example example.com
 ```

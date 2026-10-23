@@ -3,17 +3,14 @@
 page_title: "regru_record_cname Resource - regru"
 subcategory: ""
 description: |-
-  WIP
-  Manages an CNAME record for a domain.
+  Manages a CNAME record for a domain.
   The reg.ru API has no operation to update a record, so this provider handles changes to zone, name, or canonical as a replacement. It sequentially deletes the existing record and then creates the new one.
   If a matching CNAME record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 ---
 
 # regru_record_cname (Resource)
 
-**WIP**
-
-Manages an CNAME record for a domain.
+Manages a CNAME record for a domain.
 
 The reg.ru API has no operation to update a record, so this provider handles changes to `zone`, `name`, or `canonical` as a replacement. It sequentially deletes the existing record and then creates the new one.
 
@@ -22,23 +19,22 @@ If a matching CNAME record already exists, the reg.ru API treats the create requ
 ## Example Usage
 
 ```terraform
-# All 3 examples have the same final content
-#
-# Point cname1.example.com to target.example.com.:
+# Three ways to specify the same target.
+# Point cname1.example.com to target.example.com.
 resource "regru_record_cname" "cname1" {
   zone      = "example.com"
   name      = "cname1"
   canonical = "target"
 }
-#
-# Point cname2.example.com to target.example.com.:
+
+# Point cname2.example.com to target.example.com.
 resource "regru_record_cname" "cname2" {
   zone      = "example.com"
   name      = "cname2"
   canonical = "target.example.com"
 }
-#
-# Point cname3.example.com to target.example.com.:
+
+# Point cname3.example.com to target.example.com.
 resource "regru_record_cname" "cname3" {
   zone      = "example.com"
   name      = "cname3"
@@ -51,16 +47,14 @@ resource "regru_record_cname" "cname3" {
 
 ### Required
 
-- `canonical` (String) Target domain name.
+- `canonical` (String) Target domain. The provider normalizes it as follows:
 
-Following normalization rules apply:
-
-* If value ends with `.` it used as is:
-    `example.com. -> example.com.`.
-* Else if value contains`.` in the middle, `.` concatenates to the end:
-    `foo.example.com -> foo.example.com.`.
-* Else zone concatenates to the end:
-    `foo-bar -> foo-bar.example.com.`.
+    * If the value ends with `.`, it is passed unchanged:
+        `example.com.` → `example.com.`.
+    * If the value contains a dot but does not end with one, a trailing `.` is added:
+        `foo.example.com` → `foo.example.com.`.
+    * If the value contains no dot, `.<zone>.` is appended:
+        `foo-bar` → `foo-bar.example.com.` when `zone` is `example.com`.
 - `name` (String) Subdomain name, `*` for a wildcard, or `@` for the zone apex.
 - `zone` (String) Name of the domain for this record.
 
@@ -72,5 +66,5 @@ The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/c
 
 ```shell
 # Import ID format: zone,name,canonical.
-terraform import regru_record_cname.cname1 example.com,cname2,target.example.com
+terraform import regru_record_cname.cname1 'example.com,cname1,target.example.com'
 ```

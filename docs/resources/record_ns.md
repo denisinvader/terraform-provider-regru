@@ -3,40 +3,28 @@
 page_title: "regru_record_ns Resource - regru"
 subcategory: ""
 description: |-
-  TODO: ResourceRecordNS.md
+  Manages an NS record for a domain.
+  The reg.ru API has no operation to update a record, so this provider handles changes to zone, name, dns_server, or index as a replacement. It sequentially deletes the existing record and then creates the new one.
+  If a matching NS record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 ---
 
 # regru_record_ns (Resource)
 
-**TODO:** ResourceRecordNS.md
+Manages an NS record for a domain.
+
+The reg.ru API has no operation to update a record, so this provider handles changes to `zone`, `name`, `dns_server`, or `index` as a replacement. It sequentially deletes the existing record and then creates the new one.
+
+If a matching NS record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 
 ## Example Usage
 
 ```terraform
-# All 3 examples have the same final content
-#
-# Delegate foo.example.com to ns1.example.com.:
-resource "regru_record_ns" "n1" {
-  zone      = "example.com"
-  name      = "foo"
-  canonical = "ns1"
-  index     = 0
-}
-#
-# Delegate foo.example.com to ns1.example.com.:
-resource "regru_record_ns" "n2" {
-  zone      = "example.com"
-  name      = "foo"
-  canonical = "ns1.example.com"
-  index     = 1
-}
-#
-# Delegate foo.example.com to ns1.example.com.:
-resource "regru_record_ns" "n3" {
-  zone      = "example.com"
-  name      = "foo"
-  canonical = "ns1.example.com."
-  index     = 2
+# Delegate foo.example.com to ns1.example.com.
+resource "regru_record_ns" "example" {
+  zone       = "example.com"
+  name       = "foo"
+  dns_server = "ns1.example.com"
+  index      = 0
 }
 ```
 
@@ -45,8 +33,15 @@ resource "regru_record_ns" "n3" {
 
 ### Required
 
-- `dns_server` (String) **TODO:** ResourceRecordNSDNSServer.md
-- `index` (Number) **TODO:** ResourceRecordNSIndex.md
+- `dns_server` (String) Target nameserver domain. The provider normalizes it as follows:
+
+    * If the value ends with `.`, it is passed unchanged:
+        `ns1.example.com.` → `ns1.example.com.`.
+    * If the value contains a dot but does not end with one, a trailing `.` is added:
+        `ns1.example.com` → `ns1.example.com.`.
+    * If the value contains no dot, `.<zone>.` is appended:
+        `ns1` → `ns1.example.com.` when `zone` is `example.com`.
+- `index` (Number) Index of this NS record.
 - `name` (String) Subdomain name or `*` for wildcard.
 - `zone` (String) Name of the domain for this record.
 
@@ -57,6 +52,6 @@ Import is supported using the following syntax:
 The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
-# Import ID format: zone,name,index,nameserver.
-terraform import regru_record_ns.this example.com,foo,0,ns1.example.com
+# Import ID format: zone,name,index,dns_server.
+terraform import regru_record_ns.example 'example.com,foo,0,ns1.example.com'
 ```

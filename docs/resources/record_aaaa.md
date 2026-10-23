@@ -22,7 +22,7 @@ If a matching AAAA record already exists, the reg.ru API treats the create reque
 # Point local.example.com to 0:0:0:0:0:0:0:1
 resource "regru_record_aaaa" "example" {
   zone = "example.com"
-  name = "aaaa"
+  name = "local"
   ip   = "0:0:0:0:0:0:0:1"
 }
 ```
@@ -44,5 +44,5 @@ The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/c
 
 ```shell
 # Import ID format: zone,name,ip.
-terraform import regru_record_aaaa.i example.com,local,0:0:0:0:0:0:0:1
+terraform import regru_record_aaaa.example 'example.com,local,0:0:0:0:0:0:0:1'
 ```

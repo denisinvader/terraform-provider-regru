@@ -1,6 +1,4 @@
-**WIP**
-
-Manages an CNAME record for a domain.
+Manages a CNAME record for a domain.
 
 The reg.ru API has no operation to update a record, so this provider handles changes to `zone`, `name`, or `canonical` as a replacement. It sequentially deletes the existing record and then creates the new one.
 

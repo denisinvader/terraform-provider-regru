@@ -2,9 +2,15 @@
 
 [Terraform Registry page](https://registry.terraform.io/providers/denisinvader/regru/latest).
 
-Reads DNS zone details and manages DNS records for domains hosted by [reg.ru](https://reg.ru).
+Reads DNS zone details and manages DNS records for domains hosted by [reg.ru](https://reg.ru) through the [Reseller API v2](https://www.reg.ru/reseller/api2doc).
 
-Uses the [reg.ru Reseller API v2](https://www.reg.ru/reseller/api2doc).
+## Features
+
+* Manage `A`, `AAAA`, `CAA`, `CNAME`, `HTTPS`, `MX`, `NS`, `SRV` or `TXT` records.
+* Manage zone SOA settings.
+* **TODO:**
+    * Client certificate support for password authentication.
+    * Certificate-backed request signing without a password.
 
 ## Example Usage
 
@@ -21,7 +27,7 @@ provider "regru" {
   # Can be set with the REGRU_USERNAME environment variable.
   username = var.regru_username
   # Can be set with the REGRU_PASSWORD environment variable.
-  password = var.regru_passowrd
+  password = var.regru_password
 }
 
 data "regru_zone" "name" {

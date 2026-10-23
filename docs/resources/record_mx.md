@@ -3,12 +3,18 @@
 page_title: "regru_record_mx Resource - regru"
 subcategory: ""
 description: |-
-  TODO: ResourceRecordMX.md
+  Manages an MX record for a domain.
+  The reg.ru API has no operation to update a record, so this provider handles changes to zone, name, mail_server, or priority as a replacement. It sequentially deletes the existing record and then creates the new one.
+  If a matching MX record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 ---
 
 # regru_record_mx (Resource)
 
-**TODO:** ResourceRecordMX.md
+Manages an MX record for a domain.
+
+The reg.ru API has no operation to update a record, so this provider handles changes to `zone`, `name`, `mail_server`, or `priority` as a replacement. It sequentially deletes the existing record and then creates the new one.
+
+If a matching MX record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 
 ## Example Usage
 
@@ -26,13 +32,20 @@ resource "regru_record_mx" "mail" {
 
 ### Required
 
-- `mail_server` (String) **TODO:** ResourceRecordMXMailServer.md
+- `mail_server` (String) Target mail server domain. The provider normalizes it as follows:
+
+    * If the value ends with `.`, it is passed unchanged:
+        `mx.example.com.` → `mx.example.com.`.
+    * If the value contains a dot but does not end with one, a trailing `.` is added:
+        `mx.example.com` → `mx.example.com.`.
+    * If the value contains no dot, `.<zone>.` is appended:
+        `mx` → `mx.example.com.` when `zone` is `example.com`.
 - `name` (String) Subdomain name or `@` for the zone apex.
 - `zone` (String) Name of the domain for this record.
 
 ### Optional
 
-- `priority` (Number) **TODO:** RecordPriority.md
+- `priority` (Number) Non-negative integer. Lower values has higher priority.
 
 ## Import
 
@@ -42,5 +55,5 @@ The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/c
 
 ```shell
 # Import ID format: zone,name,priority,mail_server.
-terraform import regru_record_mx.i example.com,mail,0,mx1.example.com
+terraform import regru_record_mx.mail 'example.com,mail,0,mx1.example.com'
 ```

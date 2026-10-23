@@ -84,7 +84,7 @@ func (r *resourceRecordSRV) Schema(ctx context.Context, req resource.SchemaReque
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Service name. (TODO))",
+				MarkdownDescription: "Passed to reg.ru as `service` without normalization. Whitespace is rejected; for example, `_sip._udp`.",
 				Validators: []validator.String{
 					validators.StringWithoutWhitespace(),
 				},
@@ -105,7 +105,7 @@ func (r *resourceRecordSRV) Schema(ctx context.Context, req resource.SchemaReque
 				PlanModifiers: []planmodifier.Int32{
 					int32planmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Port (TODO)",
+				MarkdownDescription: "Non-negative integer passed to reg.ru as `port`.",
 				Validators: []validator.Int32{
 					int32validator.AtLeast(0),
 				},
@@ -115,7 +115,7 @@ func (r *resourceRecordSRV) Schema(ctx context.Context, req resource.SchemaReque
 				PlanModifiers: []planmodifier.Int32{
 					int32planmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Weight (TODO)",
+				MarkdownDescription: "Non-negative integer passed to reg.ru as `weight`. The provider sends `0` when this attribute is omitted.",
 				Validators: []validator.Int32{
 					int32validator.AtLeast(0),
 				},
@@ -313,6 +313,7 @@ func (r *resourceRecordSRV) ImportState(ctx context.Context, req resource.Import
 				weight,
 				port,
 				target,
+				priority,
 				zone,
 				err,
 			),

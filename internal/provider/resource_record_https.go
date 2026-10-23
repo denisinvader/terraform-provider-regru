@@ -100,7 +100,7 @@ func (r *resourceRecordHTTPS) Schema(ctx context.Context, req resource.SchemaReq
 				PlanModifiers: []planmodifier.Int32{
 					int32planmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: md.ResourceRecordHTTPSPriority,
+				MarkdownDescription: md.RecordPriority,
 				Validators: []validator.Int32{
 					int32validator.AtLeast(0),
 				},

@@ -103,7 +103,7 @@ func (d *dataSourceZone) Schema(_ context.Context, req datasource.SchemaRequest,
 					Attributes: map[string]schema.Attribute{
 						"type": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Record type: `A`, `AAAA`, `CAA`, `CNAME`, `MX`, `NS`, `SRV`, or `TXT`.",
+							MarkdownDescription: "Record type, such as `A`, `AAAA`, `CAA`, `CNAME`, `HTTPS`, `MX`, `NS`, `SRV`, or `TXT`.",
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,

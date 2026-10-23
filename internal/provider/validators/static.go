@@ -10,6 +10,6 @@ import (
 func StringWithoutWhitespace() validator.String {
 	return stringvalidator.RegexMatches(
 		regexp.MustCompile(`^[^\s]+$`),
-		"must not contain any whitespace",
+		"must be non-empty and contain no whitespace",
 	)
 }

@@ -59,14 +59,14 @@ func (r *resourceZoneSoa) Configure(ctx context.Context, req resource.ConfigureR
 
 func (r *resourceZoneSoa) Schema(ctx context.Context, req resource.SchemaRequest, res *resource.SchemaResponse) {
 	res.Schema = schema.Schema{
-		Description: "Manages Start of Authority (SOA) record settings for a domain.",
+		MarkdownDescription: md.ResourceZoneSoa,
 		Attributes: map[string]schema.Attribute{
 			"zone": schema.StringAttribute{
 				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				Description: "Name of the domain.",
+				MarkdownDescription: "Domain passed to reg.ru as `domain_name`. Changing it replaces this Terraform resource.",
 				Validators: []validator.String{
 					validators.StringWithoutWhitespace(),
 				},

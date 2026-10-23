@@ -1,1 +1,1 @@
-**TODO:** tag
+Accepted values: `issue`, `issuewild`, `iodef`.

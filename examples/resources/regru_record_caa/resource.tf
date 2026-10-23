@@ -4,17 +4,18 @@ resource "regru_record_caa" "this" {
   name  = "@"
   flag  = "0"
   tag   = "issue"
-  value = "ca.example.com"
+  value = "ca.example.com; user_id=1234"
 }
+
 resource "regru_record_caa" "www" {
   zone  = "example.com"
   name  = "www"
   flag  = "0"
   tag   = "issue"
-  value = "ca.example.com"
+  value = "ca.example.com; user_id=1234"
 }
-#
-# Email example
+
+# Allow wildcard certificates
 resource "regru_record_caa" "c2" {
   zone  = "example.com"
   name  = "*"
@@ -22,8 +23,8 @@ resource "regru_record_caa" "c2" {
   tag   = "issuewild"
   value = "ca.example.com"
 }
-#
-# Email example
+
+# Send policy violation reports by email
 resource "regru_record_caa" "c3" {
   zone  = "example.com"
   name  = "*"

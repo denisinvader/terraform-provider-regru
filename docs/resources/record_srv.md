@@ -3,12 +3,18 @@
 page_title: "regru_record_srv Resource - regru"
 subcategory: ""
 description: |-
-  TODO: ResourceRecordSRV
+  Manages an SRV record for a domain.
+  The reg.ru API has no operation to update a record, so this provider handles changes to zone, service, target, port, weight, or priority as a replacement. It sequentially deletes the existing record and then creates the new one.
+  If a matching SRV record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 ---
 
 # regru_record_srv (Resource)
 
-**TODO:** ResourceRecordSRV
+Manages an SRV record for a domain.
+
+The reg.ru API has no operation to update a record, so this provider handles changes to `zone`, `service`, `target`, `port`, `weight`, or `priority` as a replacement. It sequentially deletes the existing record and then creates the new one.
+
+If a matching SRV record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 
 ## Example Usage
 
@@ -28,15 +34,22 @@ resource "regru_record_srv" "sip" {
 
 ### Required
 
-- `port` (Number) Port (TODO)
-- `service` (String) Service name. (TODO))
-- `target` (String) **TODO:** ResourceRecordSRV
+- `port` (Number) Non-negative integer passed to reg.ru as `port`.
+- `service` (String) Passed to reg.ru as `service` without normalization. Whitespace is rejected; for example, `_sip._udp`.
+- `target` (String) Value passed to reg.ru as `target`. The provider normalizes it as follows:
+
+    * If the value ends with `.`, it is passed unchanged:
+        `sip.example.com.` → `sip.example.com.`.
+    * If the value contains a dot but does not end with one, a trailing `.` is added:
+        `sip.example.com` → `sip.example.com.`.
+    * If the value contains no dot, `.<zone>.` is appended:
+        `sip` → `sip.example.com.` when `zone` is `example.com`.
 - `zone` (String) Name of the domain for this record.
 
 ### Optional
 
-- `priority` (Number) **TODO:** RecordPriority.md
-- `weight` (Number) Weight (TODO)
+- `priority` (Number) Non-negative integer. Lower values has higher priority.
+- `weight` (Number) Non-negative integer passed to reg.ru as `weight`. The provider sends `0` when this attribute is omitted.
 
 ## Import
 
@@ -45,6 +58,6 @@ Import is supported using the following syntax:
 The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
-# Import ID format:  zone,service,priority,weight,port,target
-terraform import regru_record_srv.this example.com,_sip._udp,0,0,5060,sip-handler
+# Import ID format: zone,service,priority,weight,port,target.
+terraform import regru_record_srv.sip 'example.com,_sip._udp,0,0,5060,sip-handler'
 ```

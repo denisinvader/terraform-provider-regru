@@ -31,8 +31,6 @@ var (
 	ResourceRecordCNAMECanonical string
 	//go:embed ResourceRecordHTTPS.md
 	ResourceRecordHTTPS string
-	//go:embed ResourceRecordHTTPSPriority.md
-	ResourceRecordHTTPSPriority string
 	//go:embed ResourceRecordHTTPSValue.md
 	ResourceRecordHTTPSValue string
 	//go:embed ResourceRecordMX.md
@@ -53,6 +51,8 @@ var (
 	ResourceRecordTXT string
 	//go:embed ResourceRecordTXTText.md
 	ResourceRecordTXTText string
+	//go:embed ResourceZoneSoa.md
+	ResourceZoneSoa string
 	//go:embed SoaMinimumTtl.md
 	SoaMinimumTtl string
 	//go:embed SoaTtl.md

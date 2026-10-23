@@ -3,20 +3,27 @@
 page_title: "regru_record_https Resource - regru"
 subcategory: ""
 description: |-
-  TODO: ResourceRecordHTTPS
+  Manages an HTTPS record for a domain.
+  The reg.ru API has no operation to update a record, so this provider handles changes to zone, name, value, or priority as a replacement. It sequentially deletes the existing record and then creates the new one.
+  If a matching HTTPS record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 ---
 
 # regru_record_https (Resource)
 
-**TODO:** ResourceRecordHTTPS
+Manages an HTTPS record for a domain.
+
+The reg.ru API has no operation to update a record, so this provider handles changes to `zone`, `name`, `value`, or `priority` as a replacement. It sequentially deletes the existing record and then creates the new one.
+
+If a matching HTTPS record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 
 ## Example Usage
 
 ```terraform
-resource "regru_record_txt" "text" {
-  zone = "example.com"
-  name = "text"
-  text = "Some letters, numbers and other ASCII chars"
+resource "regru_record_https" "api" {
+  zone     = "example.com"
+  name     = "api"
+  priority = 1
+  value    = "alpn=h2,h3 port=443"
 }
 ```
 
@@ -26,8 +33,8 @@ resource "regru_record_txt" "text" {
 ### Required
 
 - `name` (String) Subdomain name, `*` for wildcard or `@` for the zone apex.
-- `priority` (Number) **TODO:** ResourceRecordHTTPSPriority
-- `value` (String) **TODO:** ResourceRecordHTTPSValue
+- `priority` (Number) Non-negative integer. Lower values has higher priority.
+- `value` (String) Space-separated list of `key=value` pairs, for example `alpn=h2,h3 port=443`. Possible keys: `alpn`, `no-default-alpn`, `ipv4hint`, `ipv6hint`, `port`, `ech`, `mandatory` and `key<N>` where `0 <= <N> <= 65534`.
 - `zone` (String) Name of the domain for this record.
 
 ## Import
@@ -38,6 +45,6 @@ The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/c
 
 ```shell
 # Import ID format: zone,name,priority,value.
-# Value can safely contain commas.
-terraform import regru_record_https.api 'example.com,api,0,alpn=h2,h3 port=443'
+# The value can contain commas.
+terraform import regru_record_https.api 'example.com,api,1,alpn=h2,h3 port=443'
 ```

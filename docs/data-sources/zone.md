@@ -40,7 +40,7 @@ Read-Only:
 - `content` (String) Record content: an IPv4 address for `A` records, an IPv6 address for `AAAA` records, a target domain for `CNAME` records, and so on.
 - `name` (String) Subdomain name, `*` for a wildcard, or `@` for the zone apex.
 - `priority` (Number) Record priority.
-- `type` (String) Record type: `A`, `AAAA`, `CAA`, `CNAME`, `MX`, `NS`, `SRV`, or `TXT`.
+- `type` (String) Record type, such as `A`, `AAAA`, `CAA`, `CNAME`, `HTTPS`, `MX`, `NS`, `SRV`, or `TXT`.
 
 
 <a id="nestedatt--soa"></a>

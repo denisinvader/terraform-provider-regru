@@ -3,12 +3,18 @@
 page_title: "regru_record_txt Resource - regru"
 subcategory: ""
 description: |-
-  TODO: ResourceRecordTXT.md
+  Manages a TXT record for a domain.
+  The reg.ru API has no operation to update a record, so this provider handles changes to zone, name, or text as a replacement. It sequentially deletes the existing record and then creates the new one.
+  If a matching TXT record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 ---
 
 # regru_record_txt (Resource)
 
-**TODO:** ResourceRecordTXT.md
+Manages a TXT record for a domain.
+
+The reg.ru API has no operation to update a record, so this provider handles changes to `zone`, `name`, or `text` as a replacement. It sequentially deletes the existing record and then creates the new one.
+
+If a matching TXT record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 
 ## Example Usage
 
@@ -26,11 +32,9 @@ resource "regru_record_txt" "text" {
 ### Required
 
 - `name` (String) Subdomain name.
-- `text` (String) **TODO:** ResourceRecordTXTText.md
+- `text` (String) Maximum length is 512 characters. A space is allowed inside the value. Newlines, tab character, leading or trailing whitespace is rejected. Allowed non-space characters:
 
-List of allowed characters:
-
-```
+```text
 ! " # $ % & ' ( ) * + , - . / 0
 1 2 3 4 5 6 7 8 9 : ; < = > ? @
 A B C D E F G H I J K L M N O P

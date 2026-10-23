@@ -3,12 +3,18 @@
 page_title: "regru_record_caa Resource - regru"
 subcategory: ""
 description: |-
-  TODO: Manages an CAA record for a domain.
+  Manages a CAA record for a domain.
+  The reg.ru API has no operation to update a record, so this provider handles changes to zone, name, flag, tag, or value as a replacement. It sequentially deletes the existing record and then creates the new one.
+  If a matching CAA record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 ---
 
 # regru_record_caa (Resource)
 
-**TODO:** Manages an CAA record for a domain.
+Manages a CAA record for a domain.
+
+The reg.ru API has no operation to update a record, so this provider handles changes to `zone`, `name`, `flag`, `tag`, or `value` as a replacement. It sequentially deletes the existing record and then creates the new one.
+
+If a matching CAA record already exists, the reg.ru API treats the create request as a no-op and returns success. Therefore, importing the record into Terraform state is optional.
 
 ## Example Usage
 
@@ -19,17 +25,18 @@ resource "regru_record_caa" "this" {
   name  = "@"
   flag  = "0"
   tag   = "issue"
-  value = "ca.example.com"
+  value = "ca.example.com; user_id=1234"
 }
+
 resource "regru_record_caa" "www" {
   zone  = "example.com"
   name  = "www"
   flag  = "0"
   tag   = "issue"
-  value = "ca.example.com"
+  value = "ca.example.com; user_id=1234"
 }
-#
-# Email example
+
+# Allow wildcard certificates
 resource "regru_record_caa" "c2" {
   zone  = "example.com"
   name  = "*"
@@ -37,8 +44,8 @@ resource "regru_record_caa" "c2" {
   tag   = "issuewild"
   value = "ca.example.com"
 }
-#
-# Email example
+
+# Send policy violation reports by email
 resource "regru_record_caa" "c3" {
   zone  = "example.com"
   name  = "*"
@@ -53,10 +60,10 @@ resource "regru_record_caa" "c3" {
 
 ### Required
 
-- `flag` (String) **TODO:** flag
+- `flag` (String) Accepted values: `0`, `128`.
 - `name` (String) Subdomain name, `*` for a wildcard, or `@` for the zone apex.
-- `tag` (String) **TODO:** tag
-- `value` (String) **TODO:** value
+- `tag` (String) Accepted values: `issue`, `issuewild`, `iodef`.
+- `value` (String) Passed to reg.ru without provider-side validation or normalization.
 - `zone` (String) Name of the domain for this record.
 
 ## Import
@@ -67,6 +74,6 @@ The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/c
 
 ```shell
 # Import ID format: zone,name,flag,tag,value.
-# Value can safely contain commas.
-terraform import regru_record_caa.this 'example.com,@,0,issuewild,ca.example.com; user_id=1234'
+# The value can contain commas.
+terraform import regru_record_caa.this 'example.com,@,0,issue,ca.example.com; user_id=1234'
 ```

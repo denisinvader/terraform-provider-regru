@@ -94,7 +94,7 @@ func (r *resourceRecordTXT) Schema(ctx context.Context, req resource.SchemaReque
 				Validators: []validator.String{
 					stringvalidator.LengthAtLeast(1),
 					stringvalidator.RegexMatches(
-						regexp.MustCompile(`^[^\s]+.*[^\s]+$`),
+						regexp.MustCompile(`^[^\s](.*[^\s])?$`),
 						"must not start or end with whitespace",
 					),
 					stringvalidator.RegexMatches(

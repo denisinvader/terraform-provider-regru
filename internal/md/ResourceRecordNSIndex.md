@@ -1,1 +1,1 @@
-**TODO:** ResourceRecordNSIndex.md
+Index of this NS record.
