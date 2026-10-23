@@ -252,7 +252,7 @@ func (r *resourceRecordHTTPS) ImportState(ctx context.Context, req resource.Impo
 		return
 	}
 
-	_, err := r.client.GetRecordHTTPS(zone, name, value, int(priority))
+	_, err := r.client.GetRecordHTTPS(zone, name, value, priority)
 	if err != nil {
 		res.Diagnostics.AddError(
 			"Error reading reg.ru HTTPS record",

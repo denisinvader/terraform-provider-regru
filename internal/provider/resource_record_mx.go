@@ -255,7 +255,7 @@ func (r *resourceRecordMX) ImportState(ctx context.Context, req resource.ImportS
 		return
 	}
 
-	_, err := r.client.GetRecordMX(zone, name, mailServer, int(priority))
+	_, err := r.client.GetRecordMX(zone, name, mailServer, priority)
 	if err != nil {
 		res.Diagnostics.AddError(
 			"Error reading reg.ru MX record",

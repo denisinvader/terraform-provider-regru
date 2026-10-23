@@ -255,7 +255,7 @@ func (r *resourceRecordNS) ImportState(ctx context.Context, req resource.ImportS
 		return
 	}
 
-	_, err := r.client.GetRecordNS(zone, name, dnsServer, int(index))
+	_, err := r.client.GetRecordNS(zone, name, dnsServer, index)
 	if err != nil {
 		res.Diagnostics.AddError(
 			"Error reading reg.ru NS record",
