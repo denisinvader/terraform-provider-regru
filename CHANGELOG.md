@@ -1,3 +1,9 @@
+## v1.0.0
+
+Features:
+
+* SSL authentication.
+
 ## v0.2.0
 
 Features:

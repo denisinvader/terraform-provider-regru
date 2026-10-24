@@ -19,8 +19,10 @@ type RegruProvider struct {
 }
 
 type RegruProviderModel struct {
-	Username types.String `tfsdk:"username"`
-	Password types.String `tfsdk:"password"`
+	Username    types.String `tfsdk:"username"`
+	Password    types.String `tfsdk:"password"`
+	Certificate types.String `tfsdk:"certificate"`
+	PrivateKey  types.String `tfsdk:"private_key"`
 }
 
 func (p *RegruProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
@@ -34,12 +36,21 @@ func (p *RegruProvider) Schema(ctx context.Context, req provider.SchemaRequest, 
 		Attributes: map[string]schema.Attribute{
 			"username": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: md.ProviderUsername,
+				MarkdownDescription: "Email address used as the username for the reg.ru API. Can also be set with the `REGRU_USERNAME` environment variable.",
 			},
 			"password": schema.StringAttribute{
 				Optional:            true,
 				Sensitive:           true,
-				MarkdownDescription: md.ProviderPassword,
+				MarkdownDescription: "Password for the reg.ru API. Can also be set with the `REGRU_PASSWORD` environment variable.",
+			},
+			"certificate": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Uploaded to reg.ru `.crt` file contents.",
+			},
+			"private_key": schema.StringAttribute{
+				Optional:            true,
+				Sensitive:           true,
+				MarkdownDescription: "Private `.key` file contents.",
 			},
 		},
 	}
@@ -73,6 +84,9 @@ func (p *RegruProvider) Configure(ctx context.Context, req provider.ConfigureReq
 		return
 	}
 
+	certificate := config.Certificate.ValueString()
+	privateKey := config.PrivateKey.ValueString()
+
 	username := os.Getenv("REGRU_USERNAME")
 	if !config.Username.IsNull() {
 		username = config.Username.ValueString()
@@ -91,13 +105,13 @@ func (p *RegruProvider) Configure(ctx context.Context, req provider.ConfigureReq
 	if !config.Password.IsNull() {
 		password = config.Password.ValueString()
 	}
-	if password == "" {
+	if password == "" && (certificate == "" || privateKey == "") {
 		res.Diagnostics.AddAttributeError(
 			path.Root("password"),
-			"Missing reg.ru API password",
+			"Missing reg.ru API authentication parameters",
 			"The reg.ru API password is missing or empty. "+
 				"Set it in the provider configuration or use the REGRU_PASSWORD environment variable. "+
-				"If it is already set, make sure its value is not empty.",
+				"Alternatively provide certificate and private_key contents for authentication by signature.",
 		)
 	}
 
@@ -105,10 +119,14 @@ func (p *RegruProvider) Configure(ctx context.Context, req provider.ConfigureReq
 		return
 	}
 
-	client := regru.NewClient(username, password)
+	client, err := regru.NewClient(username, password, certificate, privateKey)
+	if err != nil {
+		res.Diagnostics.AddError("Failed to create reg.ru client", err.Error())
+		return
+	}
 
-	res.DataSourceData = &client
-	res.ResourceData = &client
+	res.DataSourceData = client
+	res.ResourceData = client
 }
 
 func (p *RegruProvider) Resources(ctx context.Context) []func() resource.Resource {

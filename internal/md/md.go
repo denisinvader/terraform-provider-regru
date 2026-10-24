@@ -5,10 +5,6 @@ import _ "embed"
 var (
 	//go:embed Provider.md
 	Provider string
-	//go:embed ProviderUsername.md
-	ProviderUsername string
-	//go:embed ProviderPassword.md
-	ProviderPassword string
 	//go:embed RecordPriority.md
 	RecordPriority string
 	//go:embed RecordZone.md

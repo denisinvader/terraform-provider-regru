@@ -27,6 +27,7 @@ provider "regru" {
   # Can be set with the REGRU_USERNAME environment variable.
   username = var.regru_username
   # Can be set with the REGRU_PASSWORD environment variable.
+  # Optional when SSL authentication enabled.
   password = var.regru_password
 }
 ```
@@ -36,5 +37,7 @@ provider "regru" {
 
 ### Optional
 
+- `certificate` (String) Uploaded to reg.ru `.crt` file contents.
 - `password` (String, Sensitive) Password for the reg.ru API. Can also be set with the `REGRU_PASSWORD` environment variable.
+- `private_key` (String, Sensitive) Private `.key` file contents.
 - `username` (String) Email address used as the username for the reg.ru API. Can also be set with the `REGRU_USERNAME` environment variable.
