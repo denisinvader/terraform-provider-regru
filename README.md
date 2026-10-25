@@ -8,9 +8,8 @@ Reads DNS zone details and manages DNS records for domains hosted by [reg.ru](ht
 
 * Manage `A`, `AAAA`, `CAA`, `CNAME`, `HTTPS`, `MX`, `NS`, `SRV` or `TXT` records.
 * Manage zone SOA settings.
-* **TODO:**
-    * Client certificate support for password authentication.
-    * Certificate-backed request signing without a password.
+* Client certificate support.
+* Certificate-backed request signing.
 
 ## Example Usage
 
