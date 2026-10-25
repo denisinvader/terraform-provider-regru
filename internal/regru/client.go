@@ -85,7 +85,10 @@ func (c *Client) fetch(action Action, data map[string]string) (Response, error) 
 
 	for key, value := range data {
 		form.Add(key, value)
-		values = append(values, value)
+
+		if value != "" && value != "0" {
+			values = append(values, value)
+		}
 	}
 
 	values = append(values, c.auth.username)

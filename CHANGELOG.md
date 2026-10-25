@@ -1,3 +1,9 @@
+## v1.0.1
+
+Fixes:
+
+* Fixed signature of requests with empty values.
+
 ## v1.0.0
 
 Features:
